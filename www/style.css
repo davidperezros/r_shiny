@@ -1,0 +1,33 @@
+
+h1, h2, h3, h4 {
+  font-size: 10px;
+  font-weight: bold;
+ 
+}
+ .form-group shiny-input-container{
+  background-color: green; 
+ }
+ .bslib-page-sidebar .bslib-page-title{
+    color:#881333;
+ }
+ 
+ 
+
+ .bslib-sidebar-layout>.sidebar .shiny-input-container {
+color: #881333;
+}
+.selectize-dropdown, .selectize-input, .selectize-input input {
+color: #881333;
+font-family: inherit;
+font-size: 15px;
+line-height: 1.5;
+}
+  /*COLORES INE
+  
+ granate: #881333 RGB:136/19/51 HSB: 344º/86/53 LAB: 34/56/23
+Verde fuerte: #457e76 RGB:69/126/118 HSB:172º/45/49 LAB: 47/-33/-4
+Verde claro:#ddeeec RGB: 221/238/236 HSB:173º/7/93 LAB: 92/-8/-2
+
+-- 
+  
+  */
