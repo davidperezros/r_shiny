@@ -1,0 +1,16 @@
+<svg width="66.009mm" height="33.638mm" clip-rule="evenodd" fill-rule="evenodd" image-rendering="optimizeQuality" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" version="1.1" viewBox="0 0 58.295 29.707" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .str0 {stroke:#a5003a;stroke-width:0.0672948}
+    .fil0 {fill:#a5003a}
+    .fil1 {fill:#1F1A17;fill-rule:nonzero}
+   ]]>
+  </style>
+ </defs>
+ <g transform="translate(-2.6006e-6 -.00019477)">
+  
+  <path class="fil0 str0" d="m5.1026 28.95v-23.146h-5.0689v23.146zm4.3248 0.0055h4.8777v-16.834l13.199 16.834h5.643v-23.146h-4.6868v17.12l-13.39-17.12h-5.643v23.146zm48.834-26.547v-2.3745h-22.244v2.3745zm-16.558 12.996h11.185s0.49985-8.8726-5.3111-8.9354c-6.2484-0.062349-5.8737 8.9354-5.8737 8.9354zm6.9361 14.246s5.186 0.68717 9.06-5.4359l-1.2498-0.93736s-2.6868 4.5612-7.1229 4.5612c-4.3742 0-7.6234-3.3741-7.6234-10.747h16.308s0.49985-6.6857-4.374-10.185c-4.5611-3.2492-9.6222-1.8744-11.997-0.12514 0 0-5.3735 3.8741-5.3735 10.06 0 6.1856 4.3742 12.809 12.372 12.809z" fill="#a5003a"/>
+  
+ </g>
+</svg>

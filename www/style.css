@@ -1,6 +1,6 @@
 
 h1, h2, h3, h4 {
-  font-size: 10px;
+  font-size: 14px;
   font-weight: bold;
  
 }
@@ -31,3 +31,74 @@ Verde claro:#ddeeec RGB: 221/238/236 HSB:173º/7/93 LAB: 92/-8/-2
 -- 
   
   */
+  
+  
+  
+  
+  
+  /* Estilo personalizado para los enlaces */
+.custom-link {
+  color: #881333; /* Color por defecto */
+  text-decoration: none; /* Sin subrayado por defecto */
+}
+
+.custom-link:hover {
+  color: #457e76; /* Color por defecto */
+  text-decoration: underline; /* Subrayado solo al pasar el ratón */
+}
+
+
+
+/*Para que la barra de arriba sea color verde INE*/
+.bslib-page-sidebar>.navbar{
+background-color: #ddeeec;
+}
+
+
+
+
+
+
+/* Ajustar logo */
+.logo-container {
+  position: absolute;   /* Posiciona de manera absoluta */
+  top: -33px;            /* Ajusta la distancia desde la parte superior */
+  right: 10px;          /* Ajusta la distancia desde la parte derecha */
+  z-index: 1000;        /* Asegura que el logo quede encima de otros elementos */
+}
+
+.logo-container2 {
+  position: absolute;   /* Posiciona de manera absoluta */
+  top: -33px;            /* Ajusta la distancia desde la parte superior */
+  right: 20px;          /* Ajusta la distancia desde la parte derecha */
+  z-index: 1000;        /* Asegura que el logo quede encima de otros elementos */
+}
+
+/* Estilo para la imagen */
+.logo {
+  width: 50px;  /* Ajusta el tamaño del logo */
+  height: auto; /* Mantiene la proporción de la imagen */
+}
+
+/* Estilo para la imagen */
+.logo2 {
+  width: 70px;  /* Ajusta el tamaño del logo */
+  height: auto; /* Mantiene la proporción de la imagen */
+  color: #881333 ;
+}
+
+
+
+/* Para las fuentes de datos */
+
+.fuentes {
+
+font-size: 10px; 
+color:  #881333;
+}
+
+.fuentes  a{
+  font-style: italic;
+  color:  #457e76;
+
+}

@@ -1,41 +1,22 @@
-# https://shiny.posit.co/blog/posts/bslib-dashboards/#hello-dashboards
-#shinylive 
-
-#shinylive::export("/Users/davpero/INE/r_shiny","/Users/davpero/INE/r_shiny/docs")
-
-
-
-#Error in `get_github_wasm_assets()`:
-#! Can't find GitHub release for github::es-ine/ineapir@HEAD
-#! Ensure a GitHub release exists for the package repository reference: "HEAD".
-#ℹ Alternatively, install a CRAN version of this package to use the default Wasm binary
-#  repository.
-#Caused by error in `gh::gh()`:
-#! GitHub API error (404): Not Found
-#✖ URL not found: <https://api.github.com/repos/es-ine/ineapir/releases/tags/HEAD>
-#ℹ Read more at
-#  <https://docs.github.com/rest/releases/releases#get-a-release-by-tag-name>
-#Run `rlang::last_trace()` to see where the error occurred.
-
-
+# Libraries used
 
 library(shiny)
 library(shinydashboard)
 library(bslib)
-library(ggplot2)
 library(ineapir)
 library(dplyr)
-library(sf) #read_sf
-library(leaflet) #map
+library(sf) # read_sf
+library(leaflet) # map
+library(plotly)
 # ineapir -------------------------------------------------------------------
 
 # DATOS ECOICOP
 # Obtener ids y nombres comu autonomas para selector
-ids = get_metadata_table_varval(25143) %>% 
+ids <- get_metadata_table_varval(25143) %>%
   filter(Fk_Variable %in% c(70, 349)) %>%
   pull(Id)
 
-nombres = get_metadata_table_varval(25143) %>%
+nombres <- get_metadata_table_varval(25143) %>%
   filter(Fk_Variable %in% c(70, 349)) %>%
   pull(Nombre)
 
@@ -49,57 +30,56 @@ selector_lugar <- setNames(ids, nombres)
 
 
 
-# Bueno -------------------------------------------------------------------
-
-
-
-
-
-
-
-# Setup -------------------------------------------------------------------
-
-data(penguins, package = "palmerpenguins")
-
-# Turn on thematic for theme-matched plots
-#thematic::thematic_shiny(font = "auto")
-#theme_set(theme_bw(base_size = 16))
-
-# Calculate column means for the value boxes
-means <- colMeans(
-  penguins[c("bill_length_mm", "bill_length_mm", "body_mass_g")],
-  na.rm = TRUE
-)
 
 
 # UI ----------------------------------------------------------------------
 
 ui <- page_sidebar(
   includeCSS("www/style.css"),
-  title = "INE dashboard",
+  title = tags$a(href = "https://www.ine.es/", target = "_blank", tags$img(src = "ine_logo.svg", alt = "Logo", class = "logo")),
+  tags$div(
+    class = "logo-container2", tags$a(
+      href = "https://github.com/davidperezros/r_shiny", # Cambia por tu enlace a GitHub
+      target = "_blank", # Se abrirá en una nueva pestaña
+      icon("github"), # Utiliza un ícono de Font Awesome
+      class = "logo2"
+    )
+  ),
   sidebar = sidebar(
-    varSelectInput(
-      "color_by", "Ambito geográfico", 
-      penguins[c("species", "island", "sex")], 
-      selected = "species"
+    selectizeInput(
+      "x", "Ambito geográfico",
+      selector_lugar,
+      selected = 9002
     ),
     selectizeInput(
-      "x", "Ambito geográfico", 
-      selector_lugar,
-      selected=9002
+      "anyo", "Año",
+      choices = as.character(seq(2010, 2022, 1)),
+      selected = 2022
+    ),
+    tooltip(
+      span(
+        "Fuente de datos: INE",
+        bsicons::bs_icon("info-circle")
+      ),
+      "Para más ifnormación que la mostrada debjo, visitar la web del INE.",
+      placement = "bottom"
+    ),
+    tags$div(
+      class = "fuentes",
+      tags$span("Fuentes de datos:"), # Título de la sección
+      tags$ul(
+        # Lista con los hipervínculos
+        tags$li("Tamaño población, ", tags$a(href = "https://www.ine.es/jaxiT3/Tabla.htm?t=10262&L=0", "https://www.ine.es/jaxiT3/Tabla.htm?t=10262&L=0")),
+        tags$li("Datos ECOICOP, ", tags$a(href = "https://www.ine.es/jaxiT3/Tabla.htm?t=25143&L=0", "https://www.ine.es/jaxiT3/Tabla.htm?t=25143&L=0")),
+        tags$li("Datos sueldo medio, ", tags$a(href = "https://www.ine.es/jaxiT3/Tabla.htm?t=28191&L=0", "https://www.ine.es/jaxiT3/Tabla.htm?t=28191&L=0")),
+        tags$li("Contornos comunidades, ", tags$a(href = "https://www.ine.es/wstempus/geojs/ES/CONTORNOS/70", "https://www.ine.es/wstempus/geojs/ES/CONTORNOS/70"))
+      )
     )
-    ,
-    selectizeInput(
-      "anyo", "Año", 
-      choices = as.character(seq(2010,2022,1)),
-      selected =2022
-    )
-    
   ),
   layout_columns(
     fill = FALSE,
     value_box(
-      title = "Número de habitantes", value = textOutput("poblacion22") , theme = value_box_theme(
+      title = "Número de habitantes", value = textOutput("poblacion22"), theme = value_box_theme(
         bg = "#FFFFFF",
         fg = "#457E76"
       ), showcase = fontawesome::fa_i("people-group"),
@@ -107,7 +87,7 @@ ui <- page_sidebar(
       height = NULL
     ),
     value_box(
-      title = "Sueldo medio bruto", value =textOutput("sueldomedio"), theme = value_box_theme(
+      title = "Sueldo medio bruto", value = textOutput("sueldomedio"), theme = value_box_theme(
         bg = "#FFFFFF",
         fg = "#457E76"
       ), showcase = bsicons::bs_icon("currency-euro"),
@@ -115,40 +95,28 @@ ui <- page_sidebar(
       height = NULL
     ),
     value_box(
-      title = "Porcenetaje de la población total", value = textOutput("poblacion_porcentaje"), 
+      title = "Porcenetaje de la población total", value = textOutput("poblacion_porcentaje"),
       theme = value_box_theme(bg = "#FFFFFF", fg = "#457E76"),
       showcase = bsicons::bs_icon("percent"), showcase_layout = "left center",
       full_screen = FALSE, fill = TRUE, height = NULL
     )
-    
-    ),
+  ),
   layout_column_wrap(
-    width=1/2,
-    heigth=400,
+    width = 1 / 2,
+    heigth = 400,
     card(
       full_screen = TRUE,
       card_header("Ambito geográfico"),
-      leafletOutput('map')  
+      leafletOutput("map")
     ),
     layout_column_wrap(
       width = 1,
       heights_equal = "row",
-    card(
-      full_screen = TRUE,
-      card_header("Body Mass"),
-      plotOutput("body_mass")
-    ),
-    card(
-      full_screen = TRUE,
-      card_header("Bill Length"),
-      plotOutput("bill_length")
-    ),
-    card(
-      full_screen = TRUE,
-      card_header("Bill depth"),
-      plotOutput("bill_depth")
-    ))
-    
+      card(
+        full_screen = TRUE,
+        card_header("Body Mass"),
+        plotlyOutput("ecoicop")
+      )
+    )
   )
 )
-
